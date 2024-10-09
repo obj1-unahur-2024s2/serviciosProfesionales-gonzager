@@ -1,9 +1,67 @@
-import example.pepita
+import example.*
 
 describe "group of tests for pepita" {
+  const sanMartin = new Universidad(
+    provincia="Bs.As.", honorarios=3500
+  )
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  const rosario = new Universidad(
+    provincia="Santa Fe", honorarios= 2800
+  )
+
+  const corrientes = new Universidad(
+    provincia="Corrientes", honorarios= 4200
+  )
+
+  const unahur = new Universidad(
+    provincia="Bs.As.", honorarios= 4200
+  )
+
+  const juana = new AsociadoAUniversidad(
+    universidad = rosario
+  )
+
+  const melina = new AsociadoAlLitoral(
+    universidad=corrientes)
+
+  const rocio = new Libre(
+    universidad=unahur, 
+    puedeTrabajar=["Santa Fe","Cordoba","Bs.As."],
+    honorarios= 5000)
+
+  const luciana = new Libre(
+    universidad=rosario, 
+    puedeTrabajar=["Santa Fe","Entre Rios"],
+    honorarios= 3200)
+
+  const empresa = new Empresa(
+    profesionales=[juana, melina,rocio, luciana],
+    honorariosRefencia= 3500)
+
+  test "Estudarion en rosario" {
+    assert.equals(2, empresa.cuantos(rosario))
+  }
+
+  test "Estudarion en unahur" {
+    assert.equals(1, empresa.cuantos(unahur))
+  }
+
+  test "Estudarion en san Martin" {
+    assert.equals(0, empresa.cuantos(sanMartin))
+  }
+
+  test "profesionales caros" {
+    assert.equals(1, empresa.caros().size())
+  }
+
+  test "formadoras" {
+    assert.that(empresa.formadoras().contains(rosario))
+    assert.that(empresa.formadoras().contains(corrientes))
+    assert.that(empresa.formadoras().contains(unahur))
+  }
+
+  test "es Acotada" {
+    assert.that(empresa.esDeGenteAcontada())
   }
 
 }
